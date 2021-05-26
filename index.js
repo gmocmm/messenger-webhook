@@ -7,8 +7,8 @@ const app = express().use(bodyParser.json()); // creates express http server
 const request = require('request');
 require('dotenv').config();
 
-const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
-const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
+const PAGE_ACCESS_TOKEN = "EAAOEUC8M1BwBAGgOcLadnELZBuZAhOUFOxzWKBHKrOTZAJluRnIA4tW2Qr5pBqozGoB4niIFqJzXkghxTBnEcZBTZBqMGFpMZAYE7Tda3sLrQwaMGeZC32FJSGvgkik5x2nqJ05ceWmr26Bt9QDLDkYscrQ7EI3dvMJTI9s63h3RolZCvvAQW2JD";
+const VERIFY_TOKEN = "<YOUR_VERIFY_TOKEN>";
 
 // Creates the endpoint for our webhook 
 app.post('/webhook', (req, res) => {  
