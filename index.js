@@ -62,16 +62,18 @@ app.post('/webhook', (req, res) => {
     let sender_psid = webhook_event.sender.id;
 
     // Set sender action
-    setSenderActions(sender_psid, 'mark_seen');
+    // setSenderActions(sender_psid, 'mark_seen');
     setSenderActions(sender_psid, 'typing_on');
 
     // Check if the event is a message or postback and
     // pass the event to the appropriate handler function
-    if (webhook_event.message) {
-      handleMessage(sender_psid, webhook_event.message);  
-    } else if (webhook_event.postback) {
-      handlePostback(sender_psid, webhook_event.postback);
-    }
+    setTimeout(() => {
+      if (webhook_event.message) {
+        handleMessage(sender_psid, webhook_event.message);  
+      } else if (webhook_event.postback) {
+        handlePostback(sender_psid, webhook_event.postback);
+      }
+    }, 2000);
   });
 
     // Returns a '200 OK' response to all requests
