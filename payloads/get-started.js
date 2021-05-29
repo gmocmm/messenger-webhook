@@ -5,14 +5,41 @@ const handleGetStartedPayload = async (sender_psid) => {
   let userData = await CALL_GET_USER_DATA_API(sender_psid);
   userData = JSON.parse(userData);
 
-  // Welcome Message
+  
   // await SET_SENDER_ACTION(sender_psid, 'typing_on')
 
   
-  setTypingOn();
+  // Welcome Message
+  await CALL_SEND_API({
+    "recipient": { "id": sender_psid },
+    "sender_action": "typing_on"  
+  }); 
+
   await CALL_SEND_API({
     "recipient": { "id": sender_psid },
     "message": { "text": `¡Hola ${userData.first_name}! Soy Bot Jr. 🤖 y me encantan las hamburguesas 🍔 como a ti.` },
+  });
+
+  // Are you ready? Message
+  await CALL_SEND_API({
+    "recipient": { "id": sender_psid },
+    "sender_action": "typing_on"  
+  }); 
+
+  await CALL_SEND_API({
+    "recipient": { "id": sender_psid },
+    "message": { "text": "¿Listo? Estoy aquí para ayudarte." },
+  });
+
+  // Instrucion Message 
+  await CALL_SEND_API({
+    "recipient": { "id": sender_psid },
+    "sender_action": "typing_on"  
+  }); 
+
+  await CALL_SEND_API({
+    "recipient": { "id": sender_psid },
+    "message": { "text": "Selecciona una opción. 🤓" },
   });
 
   /*
@@ -41,13 +68,6 @@ const handleGetStartedPayload = async (sender_psid) => {
     });
   }, 1000);*/
 };
-
-const setTypingOn = async () => {
-  await CALL_SEND_API({
-    "recipient": { "id": sender_psid },
-    "sender_action": "typing_on"  
-  });
-}
 
 module.exports = {
   'HANDLE_GET_STARTED_PAYLOAD': handleGetStartedPayload,
