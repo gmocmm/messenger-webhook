@@ -89,3 +89,7 @@ function handlePostback(sender_psid, received_postback) {
 
   return true;
 };
+
+// Sets server port and logs message on success
+const port = process.env.PORT || 1337;
+app.listen(port, () => console.log(`Webhook is listening at port ${port}`));
