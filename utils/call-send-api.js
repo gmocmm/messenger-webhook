@@ -11,7 +11,7 @@ const callSendApi = (request_body) => {
     json: request_body
   }, (err, res, body) => {
     if (!err) {
-      console.log('message sent!', res)
+      console.log('message sent!', body)
     } else {
       console.error("Unable to send message:" + err);
     }
