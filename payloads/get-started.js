@@ -7,40 +7,40 @@ const handleGetStartedPayload = (sender_psid) => {
 
   setTimeout(() => {
     CALL_SEND_API({
-      "recipient": {
-        "id": sender_psid
-      },
+      "recipient": { "id": sender_psid },
       "message": { "text": "¡Hola {{name}}! Soy Bot Jr. 🤖 y me encantan las hamburguesas 🍔 como a ti." },
-      "typing_off": "typing_off"
+    }, () => {
+      SET_SENDER_ACTION(sender_psid, 'typing_on');
+      setTimeout(() => {
+        CALL_SEND_API({
+          "recipient": { "id": sender_psid },
+          "message": { "text": "¿Listo? Estoy aquí para ayudarte." },
+        });
+      }, 1000);
     });
-
-    SET_SENDER_ACTION(sender_psid, 'typing_on');
   }, 1000);
 
   // Are you ready? Message
   
-  setTimeout(() => {
-    CALL_SEND_API({
-      "recipient": {
-        "id": sender_psid
-      },
-      "message": { "text": "¿Listo? Estoy aquí para ayudarte." },
-      "typing_off": "typing_off"
-    });
+  // setTimeout(() => {
+  //   CALL_SEND_API({
+  //     "recipient": {
+  //       "id": sender_psid
+  //     },
+  //     "message": { "text": "¿Listo? Estoy aquí para ayudarte." },
+  //   });
+  // }, 3000);
 
-    SET_SENDER_ACTION(sender_psid, 'typing_on');
-  }, 3000);
-
-  // Instrucion Message 
-  setTimeout(() => {
-    CALL_SEND_API({
-      "recipient": {
-        "id": sender_psid
-      },
-      "message": { "text": "Selecciona una opción. 🤓" },
-      "typing_off": "typing_off"
-    });
-  }, 5000);
+  // // Instrucion Message 
+  // setTimeout(() => {
+  //   CALL_SEND_API({
+  //     "recipient": {
+  //       "id": sender_psid
+  //     },
+  //     "message": { "text": "Selecciona una opción. 🤓" },
+  //     "sender_action": "typing_off"
+  //   });
+  // }, 5000);
 };
 
 module.exports = {
