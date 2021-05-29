@@ -1,7 +1,9 @@
 const { SET_SENDER_ACTION } = require('./../utils/sender-action');
-const { CALL_SEND_API } = require('./../utils/call-send-api');
+const { CALL_SEND_API, CALL_GET_USER_DATA_API } = require('./../utils/call-send-api');
 
 const handleGetStartedPayload = (sender_psid) => {
+  CALL_GET_USER_DATA_API(sender_psid);
+
   // Welcome Message
   SET_SENDER_ACTION(sender_psid, 'typing_on')
   setTimeout(() => {
