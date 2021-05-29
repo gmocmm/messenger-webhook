@@ -69,7 +69,7 @@ app.post('/webhook', (req, res) => {
 
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
-
+  console.log('handleMessage', '*+**');
 };
 
 // Handles messaging_postbacks events

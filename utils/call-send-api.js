@@ -2,6 +2,8 @@ const request = require('request');
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
 const callSendApi = (request_body) => {  
+  console.log(request_body, '*');
+
   request({
     uri: "https://graph.facebook.com/v10.0/me/messages",
     qs: { "access_token": PAGE_ACCESS_TOKEN },
@@ -9,7 +11,7 @@ const callSendApi = (request_body) => {
     json: request_body
   }, (err, res, body) => {
     if (!err) {
-      console.log('message sent!', res, body)
+      console.log('message sent!', res)
     } else {
       console.error("Unable to send message:" + err);
     }
