@@ -45,8 +45,6 @@ app.get('/webhook', (req, res) => {
 
 // Creates the endpoint for our webhook 
 app.post('/webhook', (req, res) => { 
-  setSenderAction(sender_psid, 'mark_seen');
-
   let body = req.body;
 
   // Checks this is an event from a page subscription
@@ -62,6 +60,9 @@ app.post('/webhook', (req, res) => {
 
     // Get the sender PSID
     let sender_psid = webhook_event.sender.id;
+
+    // Send sender mark seen action
+    setSenderAction(sender_psid, 'mark_seen');
 
     // Check if the event is a message or postback and
     // pass the event to the appropriate handler function
@@ -232,8 +233,6 @@ function setupGrettingText (res) {
 
   callRequestAPI(messageData, res);
 }
-
-
 
 // Send request to API 
 function callRequestAPI(messageData, res) {
