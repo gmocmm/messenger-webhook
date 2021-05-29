@@ -3,14 +3,13 @@ const { CALL_SEND_API, CALL_GET_USER_DATA_API } = require('./../utils/call-send-
 
 const handleGetStartedPayload = async (sender_psid) => {
   const userData = await CALL_GET_USER_DATA_API(sender_psid);
-  console.log(userData, '***********+');
   
   // Welcome Message
   SET_SENDER_ACTION(sender_psid, 'typing_on')
   setTimeout(() => {
     CALL_SEND_API({
       "recipient": { "id": sender_psid },
-      "message": { "text": "¡Hola {{name}}! Soy Bot Jr. 🤖 y me encantan las hamburguesas 🍔 como a ti." },
+      "message": { "text": `¡Hola ${userData.first_name}! Soy Bot Jr. 🤖 y me encantan las hamburguesas 🍔 como a ti.` },
     }, () => {
       // Are you ready? Message
       SET_SENDER_ACTION(sender_psid, 'typing_on');
