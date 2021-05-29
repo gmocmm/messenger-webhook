@@ -4,8 +4,8 @@ const { CALL_SEND_API, CALL_GET_USER_DATA_API } = require('./../utils/call-send-
 const handleGetStartedPayload = async (sender_psid) => {
   let userData = await CALL_GET_USER_DATA_API(sender_psid);
   userData = JSON.parse(userData);
-  
-  console.log(userData, JSON.parse(userData), '***********+');
+
+  console.log(userData, '***********+');
 
   // Welcome Message
   SET_SENDER_ACTION(sender_psid, 'typing_on')
