@@ -3,44 +3,31 @@ const { CALL_SEND_API } = require('./../utils/call-send-api');
 
 const handleGetStartedPayload = (sender_psid) => {
   // Welcome Message
-  SET_SENDER_ACTION(sender_psid, 'typing_on');
-
+  SET_SENDER_ACTION(sender_psid, 'typing_on')
   setTimeout(() => {
     CALL_SEND_API({
       "recipient": { "id": sender_psid },
       "message": { "text": "¡Hola {{name}}! Soy Bot Jr. 🤖 y me encantan las hamburguesas 🍔 como a ti." },
     }, () => {
+      // Are you ready? Message
       SET_SENDER_ACTION(sender_psid, 'typing_on');
       setTimeout(() => {
         CALL_SEND_API({
           "recipient": { "id": sender_psid },
           "message": { "text": "¿Listo? Estoy aquí para ayudarte." },
+        }, () => {
+          // Instrucion Message 
+          SET_SENDER_ACTION(sender_psid, 'typing_on');
+          setTimeout(() => {
+            CALL_SEND_API({
+              "recipient": { "id": sender_psid },
+              "message": { "text": "Selecciona una opción. 🤓" },
+            });
+          }, 1000);
         });
       }, 1000);
     });
   }, 1000);
-
-  // Are you ready? Message
-  
-  // setTimeout(() => {
-  //   CALL_SEND_API({
-  //     "recipient": {
-  //       "id": sender_psid
-  //     },
-  //     "message": { "text": "¿Listo? Estoy aquí para ayudarte." },
-  //   });
-  // }, 3000);
-
-  // // Instrucion Message 
-  // setTimeout(() => {
-  //   CALL_SEND_API({
-  //     "recipient": {
-  //       "id": sender_psid
-  //     },
-  //     "message": { "text": "Selecciona una opción. 🤓" },
-  //     "sender_action": "typing_off"
-  //   });
-  // }, 5000);
 };
 
 module.exports = {
