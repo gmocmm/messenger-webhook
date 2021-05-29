@@ -29,7 +29,7 @@ const handleGetStartedPayload = (sender_psid) => {
     });
 
     SET_SENDER_ACTION(sender_psid, 'typing_on');
-  }, 2000);
+  }, 3000);
 
   // Instrucion Message 
   setTimeout(() => {
@@ -40,7 +40,7 @@ const handleGetStartedPayload = (sender_psid) => {
       "message": { "text": "Selecciona una opción. 🤓" },
       "typing_off": "typing_off"
     });
-  }, 3000);
+  }, 5000);
 };
 
 module.exports = {
