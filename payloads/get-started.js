@@ -5,10 +5,20 @@ const handleGetStartedPayload = async (sender_psid) => {
   let userData = await CALL_GET_USER_DATA_API(sender_psid);
   userData = JSON.parse(userData);
 
-  console.log(userData, '***********+');
-
   // Welcome Message
-  SET_SENDER_ACTION(sender_psid, 'typing_on')
+  // await SET_SENDER_ACTION(sender_psid, 'typing_on')
+
+  await CALL_SEND_API({
+    "recipient": { "id": sender_psid },
+    "sender_action": "typing_on"  
+  });
+
+  await CALL_SEND_API({
+    "recipient": { "id": sender_psid },
+    "message": { "text": `¡Hola ${userData.first_name}! Soy Bot Jr. 🤖 y me encantan las hamburguesas 🍔 como a ti.` },
+  });
+
+  /*
   setTimeout(() => {
     CALL_SEND_API({
       "recipient": { "id": sender_psid },
@@ -32,7 +42,7 @@ const handleGetStartedPayload = async (sender_psid) => {
         });
       }, 1000);
     });
-  }, 1000);
+  }, 1000);*/
 };
 
 module.exports = {
