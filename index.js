@@ -38,7 +38,11 @@ app.post('/webhook', async (req, res) => {
   // Checks this is an event from a page subscription
   if (body.object === 'page') {
     // Iterates over each entry - there may be multiple if batched
-    body.entry.forEach(async (entry) => {
+
+    for (let i = 0; i <= body.entry.length; i++) {
+      let entry = body.entry[i];
+
+    // body.entry.forEach(async (entry) => {
       // Gets the message. entry.messaging is an array, but 
       // will only ever contain one message, so we get index 0
       let webhook_event = entry.messaging[0];
@@ -60,7 +64,8 @@ app.post('/webhook', async (req, res) => {
       } else if (webhook_event.postback) {
         handlePostback(sender_psid, webhook_event.postback);
       }
-    });
+    //});
+    }
 
     // Returns a '200 OK' response to all requests
     res.status(200).send('EVENT_RECEIVED');
