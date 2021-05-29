@@ -7,8 +7,7 @@ const app = express().use(bodyParser.json()); // creates express http server
 const request = require('request');
 require('dotenv').config();
 
-const PAGE_ACCESS_TOKEN = "EAAOEUC8M1BwBAGgOcLadnELZBuZAhOUFOxzWKBHKrOTZAJluRnIA4tW2Qr5pBqozGoB4niIFqJzXkghxTBnEcZBTZBqMGFpMZAYE7Tda3sLrQwaMGeZC32FJSGvgkik5x2nqJ05ceWmr26Bt9QDLDkYscrQ7EI3dvMJTI9s63h3RolZCvvAQW2JD";
-const VERIFY_TOKEN = "<YOUR_VERIFY_TOKEN>";
+const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
 app.get('/setup', (req, res) => {
   setupGetStartedButtonPostback(res); 
@@ -18,9 +17,6 @@ app.get('/setup', (req, res) => {
 // Adds support for GET requests to our webhook
 app.get('/webhook', (req, res) => {
 
-  // Your verify token. Should be a random string.
-  let VERIFY_TOKEN = VERIFY_TOKEN;
-    
   // Parse the query params
   let mode = req.query['hub.mode'];
   let token = req.query['hub.verify_token'];
@@ -30,7 +26,7 @@ app.get('/webhook', (req, res) => {
   if (mode && token) {
   
     // Checks the mode and token sent is correct
-    if (mode === 'subscribe' && token === VERIFY_TOKEN) {
+    if (mode === 'subscribe' && token === process.env.VERIFY_TOKEN) {
 
       // Responds with the challenge token from the request
       console.log('WEBHOOK_VERIFIED');
