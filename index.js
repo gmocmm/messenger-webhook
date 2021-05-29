@@ -63,7 +63,7 @@ app.post('/webhook', (req, res) => {
 
     // Set sender action
     // setSenderActions(sender_psid, 'mark_seen');
-    setSenderActions(sender_psid, 'typing_on');
+    setSenderAction(sender_psid, 'typing_on');
 
     // Check if the event is a message or postback and
     // pass the event to the appropriate handler function
@@ -143,25 +143,40 @@ function handlePostback(sender_psid, received_postback) {
   } else if (payload === 'no') {
     response = { "text": "Oops, try sending another image." }
   } else if (payload === 'GET_STARTED_BUTTON_POSTBACK_PAYLOAD') { 
-    response = { "text": `Hello! {{user_first_name}} how are you?` }
+    response = { "text": `Hello! How are you?` }
   }
   
   // Send the message to acknowledge the postback
   callSendAPI(sender_psid, response);
 }
 
-function setSenderActions(sender_psid, action) {
-  const response = {
+// Sends sender actions 
+function setSenderAction(sender_psid, action) {
+  // Construct the message body
+  let request_body = {
+    "recipient": {
+      "id": sender_psid
+    },
     "sender_action": action
-  };
+  }
 
-  callSendAPI(sender_psid, response);
+  // Send the HTTP request to the Messenger Platform
+  request({
+    uri: "https://graph.facebook.com/v10.0/me/messages",
+    qs: { "access_token": PAGE_ACCESS_TOKEN },
+    method: "POST",
+    json: request_body
+  }, (err, res, body) => {
+    if (!err) {
+      console.log('message sent!')
+    } else {
+      console.error("Unable to send message:" + err);
+    }
+  });
 }
 
 // Sends response messages via the Send API
 function callSendAPI(sender_psid, response) {
-  console.log(PAGE_ACCESS_TOKEN, sender_psid);
-
   // Construct the message body
   let request_body = {
     "recipient": {
