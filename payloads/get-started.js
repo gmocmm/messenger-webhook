@@ -41,5 +41,5 @@ const handleGetStartedPayload = (sender_psid) => {
 
 export default {
   'HANDLE_GET_STARTED_PAYLOAD': handleGetStartedPayload,
-  'GET_STARTED_PAYLOAD' : GET_STARTED_BUTTON_POSTBACK_PAYLOAD
+  'GET_STARTED_PAYLOAD' : 'GET_STARTED_BUTTON_POSTBACK_PAYLOAD'
 }
