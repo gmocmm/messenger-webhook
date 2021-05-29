@@ -4,14 +4,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const { GET_STARTED_PAYLOAD, HANDLE_GET_STARTED_PAYLOAD } = require('./payloads/get-started');
-
 const app = express().use(bodyParser.json()); // creates express http server
-const request = require('request');
 require('dotenv').config();
 
-const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
-
 app.get('/webhook', (req, res) => {
+  const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
+
   // Parse the query params
   let mode = req.query['hub.mode'];
   let token = req.query['hub.verify_token'];
