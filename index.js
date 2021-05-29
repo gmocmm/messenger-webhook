@@ -8,6 +8,8 @@ const request = require('request');
 require('dotenv').config();
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
+console.log(PAGE_ACCESS_TOKEN, process.env.VERIFY_TOKEN);
+
 
 app.get('/setup', (req, res) => {
   setupGetStartedButtonPostback(res); 
