@@ -5,7 +5,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const { GET_STARTED_PAYLOAD, HANDLE_GET_STARTED_PAYLOAD } = require('./payloads/get-started');
-const { CALL_SEND_API } = require('./../utils/call-send-api');
+const { CALL_SEND_API } = require('./utils/call-send-api');
 
 const app = express().use(bodyParser.json()); // creates express http server
 require('dotenv').config();
@@ -42,7 +42,7 @@ app.post('/webhook', async (req, res) => {
     for (let i = 0; i <= body.entry.length; i++) {
       let entry = body.entry[i];
 
-    // body.entry.forEach(async (entry) => {
+      // body.entry.forEach(async (entry) => {
       // Gets the message. entry.messaging is an array, but 
       // will only ever contain one message, so we get index 0
       let webhook_event = entry.messaging[0];
@@ -54,7 +54,7 @@ app.post('/webhook', async (req, res) => {
       // Send sender mark seen action
       await CALL_SEND_API({
         "recipient": { "id": sender_psid },
-        "sender_action": "mark_seen"  
+        "sender_action": "mark_seen" 
       }); 
 
       // Check if the event is a message or postback and
@@ -64,7 +64,7 @@ app.post('/webhook', async (req, res) => {
       } else if (webhook_event.postback) {
         handlePostback(sender_psid, webhook_event.postback);
       }
-    //});
+      //});
     }
 
     // Returns a '200 OK' response to all requests

@@ -15,7 +15,7 @@ const handleGetStartedPayload = async (sender_psid) => {
     "message": { "text": `¡Hola ${userData.first_name}! Soy Bot Jr. 🤖 y me encantan las hamburguesas 🍔 como a ti.` },
   });
 
-  setTimeout(() => {
+  setTimeout(async () => {
     // Are you ready? Message
     await CALL_SEND_API({
       "recipient": { "id": sender_psid },
@@ -27,7 +27,7 @@ const handleGetStartedPayload = async (sender_psid) => {
       "message": { "text": "¿Listo? Estoy aquí para ayudarte." },
     });
 
-    setTimeout(() => {
+    setTimeout(async () => {
       // Instrucion Message 
       await CALL_SEND_API({
         "recipient": { "id": sender_psid },
