@@ -10,6 +10,11 @@ require('dotenv').config();
 const PAGE_ACCESS_TOKEN = "EAAOEUC8M1BwBAGgOcLadnELZBuZAhOUFOxzWKBHKrOTZAJluRnIA4tW2Qr5pBqozGoB4niIFqJzXkghxTBnEcZBTZBqMGFpMZAYE7Tda3sLrQwaMGeZC32FJSGvgkik5x2nqJ05ceWmr26Bt9QDLDkYscrQ7EI3dvMJTI9s63h3RolZCvvAQW2JD";
 const VERIFY_TOKEN = "<YOUR_VERIFY_TOKEN>";
 
+app.get('/setup', (req, res) => {
+  setupGetStartedButtonPostback(res); 
+  setupGrettingText(res); 
+});
+
 // Creates the endpoint for our webhook 
 app.post('/webhook', (req, res) => {  
   let body = req.body;
@@ -27,12 +32,11 @@ app.post('/webhook', (req, res) => {
 
     // Get the sender PSID
     let sender_psid = webhook_event.sender.id;
-    console.log('Sender PSID: ' + sender_psid);
 
     // Check if the event is a message or postback and
     // pass the event to the appropriate handler function
     if (webhook_event.message) {
-      handleMessage(sender_psid, webhook_event.message);        
+      handleMessage(sender_psid, webhook_event.message);  
     } else if (webhook_event.postback) {
       handlePostback(sender_psid, webhook_event.postback);
     }
@@ -62,7 +66,7 @@ app.get('/webhook', (req, res) => {
   
     // Checks the mode and token sent is correct
     if (mode === 'subscribe' && token === VERIFY_TOKEN) {
-      
+
       // Responds with the challenge token from the request
       console.log('WEBHOOK_VERIFIED');
       res.status(200).send(challenge);
@@ -132,6 +136,8 @@ function handlePostback(sender_psid, received_postback) {
     response = { "text": "Thanks!" }
   } else if (payload === 'no') {
     response = { "text": "Oops, try sending another image." }
+  } else if (payload === 'GET_STARTED_BUTTON_POSTBACK_PAYLOAD') { 
+    response = { "text": `Hello! {{user_first_name}} how are you?` }
   }
   
   // Send the message to acknowledge the postback
@@ -152,16 +158,63 @@ function callSendAPI(sender_psid, response) {
 
   // Send the HTTP request to the Messenger Platform
   request({
-    "uri": "https://graph.facebook.com/v10.0/me/messages",
-    "qs": { "access_token": PAGE_ACCESS_TOKEN },
-    "method": "POST",
-    "json": request_body
+    uri: "https://graph.facebook.com/v10.0/me/messages",
+    qs: { "access_token": PAGE_ACCESS_TOKEN },
+    method: "POST",
+    json: request_body
   }, (err, res, body) => {
     if (!err) {
       console.log('message sent!')
     } else {
       console.error("Unable to send message:" + err);
     }
+  });
+}
+
+
+
+
+
+
+
+// Setup Get Started Button Postback
+function setupGetStartedButtonPostback (res) {
+  const messageData = {
+    "get_started": {
+      "payload": "GET_STARTED_BUTTON_POSTBACK_PAYLOAD"
+    }
+  };
+
+  callRequestAPI(messageData, res);
+} 
+
+// Setup Gretting Text
+function setupGrettingText (res) {
+  const messageData = {
+    "greeting": [
+      {
+        "locale":"default",
+        "text":"Hello {{user_first_name}}! I'm a Chat bot that will assist to you!"
+      }
+    ]
+  };
+
+  callRequestAPI(messageData, res);
+}
+
+// Send request to API 
+function callRequestAPI(messageData, res) {
+  request({
+    url: 'https://graph.facebook.com/v10.0/me/messenger_profile?access_token='+ PAGE_ACCESS_TOKEN,
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    form: messageData
+  }, (error, response, body) => {
+      if (!error && response.statusCode == 200) {
+          res.send(body);
+      } else { 
+          res.send(body);
+      }
   });
 }
 
