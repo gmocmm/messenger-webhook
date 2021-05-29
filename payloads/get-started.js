@@ -1,13 +1,8 @@
-const { SET_SENDER_ACTION } = require('./../utils/sender-action');
 const { CALL_SEND_API, CALL_GET_USER_DATA_API } = require('./../utils/call-send-api');
 
 const handleGetStartedPayload = async (sender_psid) => {
   let userData = await CALL_GET_USER_DATA_API(sender_psid);
   userData = JSON.parse(userData);
-
-  
-  // await SET_SENDER_ACTION(sender_psid, 'typing_on')
-
   
   // Welcome Message
   await CALL_SEND_API({

@@ -5,7 +5,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const { GET_STARTED_PAYLOAD, HANDLE_GET_STARTED_PAYLOAD } = require('./payloads/get-started');
-const { SET_SENDER_ACTION } = require('./utils/sender-action');
+const { CALL_SEND_API } = require('./../utils/call-send-api');
+
 
 const app = express().use(bodyParser.json()); // creates express http server
 require('dotenv').config();
@@ -38,7 +39,7 @@ app.post('/webhook', (req, res) => {
   // Checks this is an event from a page subscription
   if (body.object === 'page') {
     // Iterates over each entry - there may be multiple if batched
-    body.entry.forEach(function(entry) {
+    body.entry.forEach(async function(entry) {
       // Gets the message. entry.messaging is an array, but 
       // will only ever contain one message, so we get index 0
       let webhook_event = entry.messaging[0];
@@ -48,7 +49,10 @@ app.post('/webhook', (req, res) => {
       let sender_psid = webhook_event.sender.id;
 
       // Send sender mark seen action
-      SET_SENDER_ACTION(sender_psid, 'mark_seen');
+      await CALL_SEND_API({
+        "recipient": { "id": sender_psid },
+        "sender_action": "mark_seen"  
+      }); 
 
       // Check if the event is a message or postback and
       // pass the event to the appropriate handler function
