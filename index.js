@@ -44,7 +44,9 @@ app.get('/webhook', (req, res) => {
 });
 
 // Creates the endpoint for our webhook 
-app.post('/webhook', (req, res) => {  
+app.post('/webhook', (req, res) => { 
+  setSenderAction(sender_psid, 'mark_seen');
+
   let body = req.body;
 
   // Checks this is an event from a page subscription
@@ -60,10 +62,6 @@ app.post('/webhook', (req, res) => {
 
     // Get the sender PSID
     let sender_psid = webhook_event.sender.id;
-
-    // Set sender action
-    // setSenderActions(sender_psid, 'mark_seen');
-    setSenderAction(sender_psid, 'typing_on');
 
     // Check if the event is a message or postback and
     // pass the event to the appropriate handler function
@@ -177,12 +175,16 @@ function setSenderAction(sender_psid, action) {
 
 // Sends response messages via the Send API
 function callSendAPI(sender_psid, response) {
+  // Sender action
+  setSenderAction(sender_psid, 'typing_on');
+
   // Construct the message body
   let request_body = {
     "recipient": {
       "id": sender_psid
     },
-    "message": response
+    "message": response,
+    "typing_off": action
   }
 
   // Send the HTTP request to the Messenger Platform
