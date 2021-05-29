@@ -24,7 +24,7 @@ const callGetUserDataApi = (sender_psid) => {
     method: "GET",
   }, (err, res, body) => {
     if (!err) {
-      console.log(body, '******');
+      return body;
     } else {
       console.error("Unable to send message:" + err);
     }
