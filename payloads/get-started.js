@@ -10,36 +10,36 @@ const handleGetStartedPayload = async (sender_psid) => {
     "sender_action": "typing_on"  
   }); 
 
-  await CALL_SEND_API({
-    "recipient": { "id": sender_psid },
-    "message": { "text": `¡Hola ${userData.first_name}! Soy Bot Jr. 🤖 y me encantan las hamburguesas 🍔 como a ti.` },
-  });
+  setTimeout(async () => {
+    await CALL_SEND_API({
+      "recipient": { "id": sender_psid },
+      "message": { "text": `¡Hola ${userData.first_name}! Soy Bot Jr. 🤖 y me encantan las hamburguesas 🍔 como a ti.` },
+    });
 
-  // setTimeout(async () => {
-  //   // Are you ready? Message
-  //   await CALL_SEND_API({
-  //     "recipient": { "id": sender_psid },
-  //     "sender_action": "typing_on"  
-  //   }); 
+    await CALL_SEND_API({
+      "recipient": { "id": sender_psid },
+      "sender_action": "typing_on"  
+    }); 
+  }, 1000);
 
-  //   await CALL_SEND_API({
-  //     "recipient": { "id": sender_psid },
-  //     "message": { "text": "¿Listo? Estoy aquí para ayudarte." },
-  //   });
+  setTimeout(async () => {
+    await CALL_SEND_API({
+      "recipient": { "id": sender_psid },
+      "message": { "text": "¿Listo? Estoy aquí para ayudarte." },
+    });
 
-  //   setTimeout(async () => {
-  //     // Instrucion Message 
-  //     await CALL_SEND_API({
-  //       "recipient": { "id": sender_psid },
-  //       "sender_action": "typing_on"  
-  //     }); 
+    await CALL_SEND_API({
+      "recipient": { "id": sender_psid },
+      "sender_action": "typing_on"  
+    }); 
+  }, 2000);
 
-  //     await CALL_SEND_API({
-  //       "recipient": { "id": sender_psid },
-  //       "message": { "text": "Selecciona una opción. 🤓" },
-  //     });
-  //   }, 1000);
-  // }, 1000);
+  setTimeout(async () => {
+    await CALL_SEND_API({
+      "recipient": { "id": sender_psid },
+      "message": { "text": "Selecciona una opción. 🤓" },
+    });
+  }, 3000);
 };
 
 module.exports = {
