@@ -17,22 +17,17 @@ const callSendApi = (request_body, callback = null) => {
   });
 };
 
-const callGetUserDataApi = async (sender_psid) => {
-  let userData = null;
-
-  await request({
-    uri: `https://graph.facebook.com/v10.0/${sender_psid}`,
-    qs: { "access_token": PAGE_ACCESS_TOKEN },
-    method: "GET",
-  }, (err, res, body) => {
-    if (!err) {
-      userData = body;
-    } else {
-      console.error("Unable to send message:" + err);
-    }
+const callGetUserDataApi = async (sender_psid) => {  
+  new Promise((resolve, reject) => {
+    request({
+      uri: `https://graph.facebook.com/v10.0/${sender_psid}`,
+      qs: { "access_token": PAGE_ACCESS_TOKEN },
+      method: "GET",
+    }, (err, res, body) => {
+      if(err) reject(err);
+      else resolve(body);
+    });
   });
-
-  return userData;
 }
 module.exports = {
   'CALL_SEND_API': callSendApi,
