@@ -9,7 +9,7 @@ const handleGetStartedPayload = (sender_psid) => {
       "recipient": {
         "id": sender_psid
       },
-      "message": "¡Hola Guillermo! Soy Bot Jr. 🤖 y me encantan las hamburguesas 🍔 como a ti.",
+      "message": "¡Hola {{name}}! Soy Bot Jr. 🤖 y me encantan las hamburguesas 🍔 como a ti.",
       "typing_off": "typing_off"
     });
   }, 1000);
