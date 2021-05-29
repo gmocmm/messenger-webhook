@@ -18,7 +18,7 @@ const callSendApi = (request_body, callback = null) => {
 };
 
 const callGetUserDataApi = async (sender_psid) => {  
-  new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     request({
       uri: `https://graph.facebook.com/v10.0/${sender_psid}`,
       qs: { "access_token": PAGE_ACCESS_TOKEN },
