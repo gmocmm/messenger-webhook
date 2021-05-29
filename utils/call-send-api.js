@@ -18,6 +18,6 @@ const callSendApi = (request_body) => {
   });
 }
 
-export default {
+module.exports = {
   'CALL_SEND_API': callSendApi
 }

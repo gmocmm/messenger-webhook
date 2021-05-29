@@ -11,6 +11,6 @@ const setSenderAction = (sender_psid, action) => {
   CALL_SEND_API(request_body);
 }
 
-export default {
-  'SET_SENDER_ACTION': setSenderAction,
-}
+module.exports = {
+  'SET_SENDER_ACTION': setSenderAction
+};
