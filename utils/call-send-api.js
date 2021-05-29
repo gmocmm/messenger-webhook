@@ -1,3 +1,5 @@
+const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
+
 const callSendApi = (request_body) => {
   request({
     uri: "https://graph.facebook.com/v10.0/me/messages",
