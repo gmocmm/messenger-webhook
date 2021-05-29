@@ -15,41 +15,6 @@ app.get('/setup', (req, res) => {
   setupGrettingText(res); 
 });
 
-// Creates the endpoint for our webhook 
-app.post('/webhook', (req, res) => {  
-  let body = req.body;
-
-  // Checks this is an event from a page subscription
-  if (body.object === 'page') {
-
-    // Iterates over each entry - there may be multiple if batched
-    body.entry.forEach(function(entry) {
-
-    // Gets the message. entry.messaging is an array, but 
-    // will only ever contain one message, so we get index 0
-    let webhook_event = entry.messaging[0];
-    console.log(webhook_event);
-
-    // Get the sender PSID
-    let sender_psid = webhook_event.sender.id;
-
-    // Check if the event is a message or postback and
-    // pass the event to the appropriate handler function
-    if (webhook_event.message) {
-      handleMessage(sender_psid, webhook_event.message);  
-    } else if (webhook_event.postback) {
-      handlePostback(sender_psid, webhook_event.postback);
-    }
-  });
-
-    // Returns a '200 OK' response to all requests
-    res.status(200).send('EVENT_RECEIVED');
-  } else {
-    // Returns a '404 Not Found' if event is not from a page subscription
-    res.sendStatus(404);
-  }
-});
-
 // Adds support for GET requests to our webhook
 app.get('/webhook', (req, res) => {
 
@@ -75,6 +40,45 @@ app.get('/webhook', (req, res) => {
       // Responds with '403 Forbidden' if verify tokens do not match
       res.sendStatus(403);      
     }
+  }
+});
+
+// Creates the endpoint for our webhook 
+app.post('/webhook', (req, res) => {  
+  let body = req.body;
+
+  // Checks this is an event from a page subscription
+  if (body.object === 'page') {
+
+    // Iterates over each entry - there may be multiple if batched
+    body.entry.forEach(function(entry) {
+
+    // Gets the message. entry.messaging is an array, but 
+    // will only ever contain one message, so we get index 0
+    let webhook_event = entry.messaging[0];
+    console.log(webhook_event);
+
+    // Get the sender PSID
+    let sender_psid = webhook_event.sender.id;
+
+    // Set sender action
+    setSenderActions(sender_psid, 'mark_seen');
+    setSenderActions(sender_psid, 'typing_on');
+
+    // Check if the event is a message or postback and
+    // pass the event to the appropriate handler function
+    if (webhook_event.message) {
+      handleMessage(sender_psid, webhook_event.message);  
+    } else if (webhook_event.postback) {
+      handlePostback(sender_psid, webhook_event.postback);
+    }
+  });
+
+    // Returns a '200 OK' response to all requests
+    res.status(200).send('EVENT_RECEIVED');
+  } else {
+    // Returns a '404 Not Found' if event is not from a page subscription
+    res.sendStatus(404);
   }
 });
 
@@ -144,6 +148,14 @@ function handlePostback(sender_psid, received_postback) {
   callSendAPI(sender_psid, response);
 }
 
+function setSenderActions(sender_psid, action) {
+  const response = {
+    "sender_action": action
+  };
+
+  callSendAPI(sender_psid, response);
+}
+
 // Sends response messages via the Send API
 function callSendAPI(sender_psid, response) {
   console.log(PAGE_ACCESS_TOKEN, sender_psid);
@@ -201,6 +213,8 @@ function setupGrettingText (res) {
 
   callRequestAPI(messageData, res);
 }
+
+
 
 // Send request to API 
 function callRequestAPI(messageData, res) {
