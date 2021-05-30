@@ -11,11 +11,10 @@ const sendRequest = (request_body) => {
       method: "POST",
       json: request_body
     }, (err, res, body) => {
-      if(request_body.sender_action) setTimeout(() => {}, 5000);
       if(err) reject(err); else {
         if(request_body.sender_action) {
           setTimeout(() => {
-            resolve(body)
+            resolve(body);
           }, 5000)
         } else {
           resolve(body);
