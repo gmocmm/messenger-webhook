@@ -4,10 +4,10 @@ const getStartedPayloadHandler = async (sender_psid) => {
   let userData = await GET_USER_DATA(sender_psid);
   userData = JSON.parse(userData);
 
-  await SEND_REQUEST({
-    "recipient": { "id": sender_psid },
-    "sender_action": "typing_on"  
-  }); 
+  // await SEND_REQUEST({
+  //   "recipient": { "id": sender_psid },
+  //   "sender_action": "typing_on"  
+  // }); 
 
   await SEND_REQUEST({
     "recipient": { "id": sender_psid },
@@ -17,24 +17,12 @@ const getStartedPayloadHandler = async (sender_psid) => {
 
   await SEND_REQUEST({
     "recipient": { "id": sender_psid },
-    "sender_action": "typing_on"  
-  }); 
-
-  await SEND_REQUEST({
-    "recipient": { "id": sender_psid },
     "message": { "text": "¿Listo? Estoy aquí para ayudarte." },
-    "sender_action": "typing_on" 
   });
 
   await SEND_REQUEST({
     "recipient": { "id": sender_psid },
-    "sender_action": "typing_on"  
-  }); 
-  
-  await SEND_REQUEST({
-    "recipient": { "id": sender_psid },
     "message": { "text": "Selecciona una opción. 🤓" },
-    "sender_action": "typing_on" 
   });
 
   /* 
