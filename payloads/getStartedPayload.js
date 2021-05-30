@@ -19,7 +19,7 @@ const getStartedPayloadHandler = async (sender_psid) => {
       "recipient": { "id": sender_psid },
       "sender_action": "typing_on"  
     }); 
-  }, 1000);
+  }, 2000);
 
   setTimeout(async () => {
     await SEND_REQUEST({
@@ -31,14 +31,14 @@ const getStartedPayloadHandler = async (sender_psid) => {
       "recipient": { "id": sender_psid },
       "sender_action": "typing_on"  
     }); 
-  }, 2000);
+  }, 4000);
 
   setTimeout(async () => {
     await SEND_REQUEST({
       "recipient": { "id": sender_psid },
       "message": { "text": "Selecciona una opción. 🤓" },
     });
-  }, 3000);
+  }, 6000);
 };
 
 module.exports = {
