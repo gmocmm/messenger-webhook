@@ -13,6 +13,11 @@ const getStartedPayloadHandler = async (sender_psid) => {
 
   await SEND_REQUEST({
     "recipient": { "id": sender_psid },
+    "sender_action": "typing_off"  
+  }); 
+
+  await SEND_REQUEST({
+    "recipient": { "id": sender_psid },
     "message": { "text": `¡Hola ${userData.first_name}! Soy Bot Jr. 🤖 y me encantan las hamburguesas 🍔 como a ti.` },
   });
 
@@ -25,6 +30,11 @@ const getStartedPayloadHandler = async (sender_psid) => {
 
   await SEND_REQUEST({
     "recipient": { "id": sender_psid },
+    "sender_action": "typing_off"  
+  }); 
+
+  await SEND_REQUEST({
+    "recipient": { "id": sender_psid },
     "message": { "text": "¿Listo? Estoy aquí para ayudarte." },
   });
 
@@ -34,6 +44,11 @@ const getStartedPayloadHandler = async (sender_psid) => {
   }); 
 
   await DELAY();
+
+  await SEND_REQUEST({
+    "recipient": { "id": sender_psid },
+    "sender_action": "typing_off"  
+  }); 
 
   await SEND_REQUEST({
     "recipient": { "id": sender_psid },
