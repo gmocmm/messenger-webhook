@@ -3,7 +3,38 @@ const { SEND_REQUEST, GET_USER_DATA } = require('../utils/callGraphApi');
 const getStartedPayloadHandler = async (sender_psid) => {
   let userData = await GET_USER_DATA(sender_psid);
   userData = JSON.parse(userData);
+
+  await SEND_REQUEST({
+    "recipient": { "id": sender_psid },
+    "sender_action": "typing_on"  
+  }); 
+
+  await SEND_REQUEST({
+    "recipient": { "id": sender_psid },
+    "message": { "text": `¡Hola ${userData.first_name}! Soy Bot Jr. 🤖 y me encantan las hamburguesas 🍔 como a ti.` },
+  });
+
+  await SEND_REQUEST({
+    "recipient": { "id": sender_psid },
+    "sender_action": "typing_on"  
+  }); 
+
+  await SEND_REQUEST({
+    "recipient": { "id": sender_psid },
+    "message": { "text": "¿Listo? Estoy aquí para ayudarte." },
+  });
+
+  await SEND_REQUEST({
+    "recipient": { "id": sender_psid },
+    "sender_action": "typing_on"  
+  }); 
+
+  await SEND_REQUEST({
+    "recipient": { "id": sender_psid },
+    "message": { "text": "Selecciona una opción. 🤓" },
+  });
   
+  /* 
   await SEND_REQUEST({
     "recipient": { "id": sender_psid },
     "sender_action": "typing_on"  
@@ -39,6 +70,7 @@ const getStartedPayloadHandler = async (sender_psid) => {
       "message": { "text": "Selecciona una opción. 🤓" },
     });
   }, 6000);
+  */
 };
 
 module.exports = {
