@@ -4,6 +4,8 @@ const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const GRAPH_FACEBOOK_URI = 'https://graph.facebook.com/v10.0';
 
 const sendRequest = (request_body) => {
+  if(request_body.message) setTimeout(() => {}, 5000);
+
   return new Promise((resolve, reject) => {
     request({
       uri: `${GRAPH_FACEBOOK_URI}/me/messages`,
@@ -11,15 +13,7 @@ const sendRequest = (request_body) => {
       method: "POST",
       json: request_body
     }, (err, res, body) => {
-      if(err) reject(err); else {
-        if(request_body.sender_action) {
-          setTimeout(() => {
-            resolve(body);
-          }, 5000)
-        } else {
-          resolve(body);
-        }
-      };
+      if(err) reject(err); else resolve(body);
     });
   });
 };
