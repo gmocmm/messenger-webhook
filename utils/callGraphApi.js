@@ -4,7 +4,7 @@ const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const GRAPH_FACEBOOK_URI = 'https://graph.facebook.com/v10.0';
 
 const sendRequest = async (request_body) => {
-  if(request_body.message) await delay();
+  
 
   return new Promise((resolve, reject) => {
     request({
@@ -12,8 +12,11 @@ const sendRequest = async (request_body) => {
       qs: { "access_token": PAGE_ACCESS_TOKEN },
       method: "POST",
       json: request_body
-    }, (err, res, body) => {
-      if(err) reject(err); else resolve(body);
+    }, async (err, res, body) => {
+      if(err) reject(err); else {
+        if(request_body.sender_action) await delay();
+        resolve(body);
+      };
     });
   });
 };
