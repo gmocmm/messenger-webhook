@@ -3,8 +3,8 @@ const request = require('request');
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const GRAPH_FACEBOOK_URI = 'https://graph.facebook.com/v10.0';
 
-const sendRequest = (request_body) => {
-  if(request_body.message) setTimeout(() => {}, 5000);
+const sendRequest = async (request_body) => {
+  if(request_body.message) await delay();
 
   return new Promise((resolve, reject) => {
     request({
@@ -28,6 +28,14 @@ const getUserData = (sender_psid) => {
       if(err) reject(err);
       else resolve(body);
     });
+  });
+}
+
+const delay = () => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve();
+    }, 5000);
   });
 }
 
