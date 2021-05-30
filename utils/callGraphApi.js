@@ -12,7 +12,15 @@ const sendRequest = (request_body) => {
       json: request_body
     }, (err, res, body) => {
       if(request_body.sender_action) setTimeout(() => {}, 5000);
-      if(err) reject(err); else resolve(body);
+      if(err) reject(err); else {
+        if(request_body.sender_action) {
+          setTimeout(() => {
+            resolve(body)
+          }, 5000)
+        } else {
+          resolve(body);
+        }
+      };
     });
   });
 };
