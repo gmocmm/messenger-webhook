@@ -1,4 +1,4 @@
-const { SEND_REQUEST, GET_USER_DATA } = require('../utils/callGraphApi');
+const { SEND_REQUEST, GET_USER_DATA, DELAY } = require('../utils/callGraphApi');
 
 const getStartedPayloadHandler = async (sender_psid) => {
   let userData = await GET_USER_DATA(sender_psid);
@@ -8,6 +8,8 @@ const getStartedPayloadHandler = async (sender_psid) => {
     "recipient": { "id": sender_psid },
     "sender_action": "typing_on"  
   }); 
+
+  await DELAY();
 
   await SEND_REQUEST({
     "recipient": { "id": sender_psid },
@@ -19,6 +21,8 @@ const getStartedPayloadHandler = async (sender_psid) => {
     "sender_action": "typing_on"  
   }); 
 
+  await DELAY();
+
   await SEND_REQUEST({
     "recipient": { "id": sender_psid },
     "message": { "text": "¿Listo? Estoy aquí para ayudarte." },
@@ -29,11 +33,13 @@ const getStartedPayloadHandler = async (sender_psid) => {
     "sender_action": "typing_on"  
   }); 
 
+  await DELAY();
+
   await SEND_REQUEST({
     "recipient": { "id": sender_psid },
     "message": { "text": "Selecciona una opción. 🤓" },
   });
-  
+
   /* 
   await SEND_REQUEST({
     "recipient": { "id": sender_psid },
