@@ -14,7 +14,7 @@ const sendRequest = async (request_body) => {
       json: request_body
     }, async (err, res, body) => {
       if(err) reject(err); else {
-        if(request_body.sender_action) await delay();
+        if(request_body.message) await delay();
         resolve(body);
       };
     });
