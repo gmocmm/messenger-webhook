@@ -11,7 +11,7 @@ const sendRequest = (request_body) => {
       method: "POST",
       json: request_body
     }, (err, res, body) => {
-      if(request_body.sender_action) setTimeout(() => {}, 1000);
+      if(request_body.sender_action) setTimeout(() => {}, 5000);
       if(err) reject(err); else resolve(body);
     });
   });
