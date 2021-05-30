@@ -4,8 +4,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const { GET_STARTED_PAYLOAD, HANDLE_GET_STARTED_PAYLOAD } = require('./payloads/get-started');
-const { CALL_SEND_API } = require('./utils/call-send-api');
+const { GET_STARTED_PAYLOAD_NAME, GET_STARTED_PAYLOAD_HANDLER } = require('./payloads/getStartedPayload');
+const { SEND_REQUEST } = require('./utils/callGraphApi');
 
 const app = express().use(bodyParser.json()); // creates express http server
 require('dotenv').config();
@@ -49,7 +49,7 @@ app.post('/webhook', (req, res) => {
       let sender_psid = webhook_event.sender.id;
 
       // Send sender mark seen action
-      await CALL_SEND_API({
+      await SEND_REQUEST({
         "recipient": { "id": sender_psid },
         "sender_action": "mark_seen"  
       }); 
@@ -83,8 +83,8 @@ function handlePostback(sender_psid, received_postback) {
 
   // Set the response based on the postback payload
   switch (payload) {
-    case GET_STARTED_PAYLOAD:
-      HANDLE_GET_STARTED_PAYLOAD(sender_psid);
+    case GET_STARTED_PAYLOAD_NAME:
+      GET_STARTED_PAYLOAD_HANDLER(sender_psid);
       break;
   
     default:
