@@ -1,4 +1,4 @@
-const { SEND_REQUEST, GET_USER_DATA, DELAY } = require('../utils/callGraphApi');
+const { SEND_REQUEST, GET_USER_DATA } = require('../utils/callGraphApi');
 
 const getStartedPayloadHandler = async (sender_psid) => {
   let userData = await GET_USER_DATA(sender_psid);
