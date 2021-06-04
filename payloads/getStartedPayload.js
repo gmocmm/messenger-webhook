@@ -1,5 +1,5 @@
 const { SEND_REQUEST, GET_USER_DATA } = require('../services/callGraphApi');
-const { START_MENU } = require('./../templates/quickReply');
+const { MAIN_MENU } = require('./../templates/quickReply');
 
 const getStartedPayloadHandler = async (sender_psid) => {
   let userData = await GET_USER_DATA(sender_psid);
@@ -42,7 +42,7 @@ const getStartedPayloadHandler = async (sender_psid) => {
   }); 
 
   // Message
-  await SEND_REQUEST(START_MENU(sender_psid));
+  await SEND_REQUEST(MAIN_MENU(sender_psid));
 
   // ************************ */
 };
