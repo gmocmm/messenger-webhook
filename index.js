@@ -5,7 +5,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const { GET_STARTED_PAYLOAD_NAME, GET_STARTED_PAYLOAD_HANDLER } = require('./payloads/getStartedPayload');
-const { SEND_REQUEST } = require('./utils/callGraphApi');
+const { SEND_REQUEST } = require('./services/callGraphApi');
 
 const app = express().use(bodyParser.json()); // creates express http server
 require('dotenv').config();
