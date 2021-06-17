@@ -13,12 +13,27 @@ const app = express().use(bodyParser.json()); // creates express http server
 require('dotenv').config();
 
 
-// ----------------------------------------------------------------------------
-// Wit.ai bot specific code
-
 // This will contain all user sessions.
 // Each session has an entry:
 // sessionId -> {fbid: facebookUserId, context: sessionState}
+const sessions = {};
+
+const findOrCreateSession = (fbid) => {
+  let sessionId;
+  // Let's see if we already have a session for the user fbid
+  Object.keys(sessions).forEach(k => {
+    if (sessions[k].fbid === fbid) {
+      // Yep, got it!
+      sessionId = k;
+    }
+  });
+  if (!sessionId) {
+    // No session found for user fbid, let's create a new one
+    sessionId = new Date().toISOString();
+    sessions[sessionId] = {fbid: fbid, context: {}};
+  }
+  return sessionId;
+};
 
 // Wit.ai parameters
 const WIT_TOKEN = 'JTJ7HCYEJBRWH2QHT7CBCH3XBWAEK23U';
@@ -42,7 +57,7 @@ app.get('/webhook', (req, res) => {
     // Checks the mode and token sent is correct
     if (mode === 'subscribe' && token === VERIFY_TOKEN) {
       // Responds with the challenge token from the request
-      console.log('WEBHOOK_VERIFIED');
+      // console.log('WEBHOOK_VERIFIED');
       res.status(200).send(challenge);
     } else {
       // Responds with '403 Forbidden' if verify tokens do not match
@@ -62,7 +77,7 @@ app.post('/webhook', (req, res) => {
       // Gets the message. entry.messaging is an array, but 
       // will only ever contain one message, so we get index 0
       let webhook_event = entry.messaging[0];
-      console.log(webhook_event);
+      // console.log(webhook_event); ---------------->
 
       // Get the sender PSID
       let sender_psid = webhook_event.sender.id;
@@ -72,6 +87,11 @@ app.post('/webhook', (req, res) => {
         "recipient": { "id": sender_psid },
         "sender_action": "mark_seen"  
       }); 
+
+      // We could retrieve the user's current session, or create one if it doesn't exist
+      // This is useful if we want our bot to figure out the conversation history
+      const sessionId = findOrCreateSession(sender_psid);
+      console.log(sessionId);
 
       // Check if the event is a message or postback and
       // pass the event to the appropriate handler function
@@ -92,12 +112,11 @@ app.post('/webhook', (req, res) => {
 
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
-  console.log(received_message, '*****');
   wit.message(received_message.text).then(({entities, intents, traits}) => {
     // You can customize your response using these
-    console.log(intents);
-    console.log(entities);
-    console.log(traits);
+    // console.log(intents);
+    // console.log(entities);
+    // console.log(traits);
   })
   .catch((err) => {
     console.error('Oops! Got an error from Wit: ', err.stack || err);
