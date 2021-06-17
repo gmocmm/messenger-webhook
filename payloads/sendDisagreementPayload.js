@@ -1,4 +1,13 @@
-const sendDisagreementPayloadHandler = (sender_psid) => {
+const sendDisagreementPayloadHandler = (sender_psid, session) => {
+  session = {
+    ...session,
+    context: {
+      payload: 'SEND_DISAGREEMENT_PAYLOAD_NAME'
+    }
+  };
+
+  console.log(session, '*************');
+  return session;
 }
 
 module.exports = {

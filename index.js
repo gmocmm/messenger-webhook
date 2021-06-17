@@ -12,12 +12,10 @@ const { SEND_REQUEST } = require('./services/callGraphApi');
 const app = express().use(bodyParser.json()); // creates express http server
 require('dotenv').config();
 
-
 // This will contain all user sessions.
 // Each session has an entry:
 // sessionId -> {fbid: facebookUserId, context: sessionState}
 const sessions = {};
-
 const findOrCreateSession = (fbid) => {
   let sessionId;
   // Let's see if we already have a session for the user fbid
@@ -112,28 +110,23 @@ app.post('/webhook', (req, res) => {
 
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
+  const sessionId = findOrCreateSession(sender_psid);
+  const session = sessions[sessionId];
+
   if(received_message.quick_reply) {
     let payload = received_message.quick_reply.payload;
 
     switch (payload) {
       case SEND_DISAGREEMENT_PAYLOAD_NAME:
-        const sessionId = findOrCreateSession(sender_psid);
         
-        sessions[sessionId] = {
-          ...sessions[sessionId],
-          context: {
-            payload: SEND_DISAGREEMENT_PAYLOAD_NAME
-          }
-        };
+        // sessions[sessionId] = {
+        //   ...sessions[sessionId],
+        //   context: {
+        //     payload: SEND_DISAGREEMENT_PAYLOAD_NAME
+        //   }
+        // };
   
-        console.log({
-          ...sessions[sessionId],
-          context: {
-            payload: SEND_DISAGREEMENT_PAYLOAD_NAME
-          }
-        }, '*******');
-  
-        // SEND_DISAGREEMENT_PAYLOAD_HANDLER(sender_psid);
+        SEND_DISAGREEMENT_PAYLOAD_HANDLER(sender_psid, session);
         break;
   
       default:
