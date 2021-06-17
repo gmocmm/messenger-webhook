@@ -144,7 +144,12 @@ function handlePostback(sender_psid, received_postback) {
         }
       };
 
-      console.log(sessions[sessionId], '*');
+      console.log({
+        ...sessions[sessionId],
+        context: {
+          payload: SEND_DISAGREEMENT_PAYLOAD_NAME
+        }
+      }, '*******');
 
       SEND_DISAGREEMENT_PAYLOAD_HANDLER(sender_psid);
       break;
