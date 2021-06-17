@@ -134,7 +134,18 @@ function handlePostback(sender_psid, received_postback) {
       GET_STARTED_PAYLOAD_HANDLER(sender_psid);
       break;
     
-    case SEND_DISAGREEMENT_PAYLOAD_NAME: 
+    case SEND_DISAGREEMENT_PAYLOAD_NAME:
+      const sessionId = findOrCreateSession(sender_psid);
+      
+      sessions[sessionId] = {
+        ...sessions[sessionId],
+        context: {
+          payload: SEND_DISAGREEMENT_PAYLOAD_NAME
+        }
+      };
+
+      console.log(sessions[sessionId], '*');
+
       SEND_DISAGREEMENT_PAYLOAD_HANDLER(sender_psid);
       break;
 
