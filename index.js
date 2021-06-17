@@ -112,11 +112,42 @@ app.post('/webhook', (req, res) => {
 
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
+  if(received_message.quick_reply) {
+    let payload = received_message.quick_reply.payload;
+
+    switch (payload) {
+      case SEND_DISAGREEMENT_PAYLOAD_NAME:
+        const sessionId = findOrCreateSession(sender_psid);
+        
+        sessions[sessionId] = {
+          ...sessions[sessionId],
+          context: {
+            payload: SEND_DISAGREEMENT_PAYLOAD_NAME
+          }
+        };
+  
+        console.log({
+          ...sessions[sessionId],
+          context: {
+            payload: SEND_DISAGREEMENT_PAYLOAD_NAME
+          }
+        }, '*******');
+  
+        // SEND_DISAGREEMENT_PAYLOAD_HANDLER(sender_psid);
+        break;
+  
+      default:
+        break;
+    }
+
+    return true;
+  } 
+
   wit.message(received_message.text).then(({entities, intents, traits}) => {
     // You can customize your response using these
-    // console.log(intents);
-    // console.log(entities);
-    // console.log(traits);
+    console.log(intents);
+    console.log(entities);
+    console.log(traits);
   })
   .catch((err) => {
     console.error('Oops! Got an error from Wit: ', err.stack || err);
@@ -132,27 +163,6 @@ function handlePostback(sender_psid, received_postback) {
   switch (payload) {
     case GET_STARTED_PAYLOAD_NAME:
       GET_STARTED_PAYLOAD_HANDLER(sender_psid);
-      break;
-    
-    case SEND_DISAGREEMENT_PAYLOAD_NAME:
-      console.log('AAAAAAAAAAAAA');
-      const sessionId = findOrCreateSession(sender_psid);
-      
-      sessions[sessionId] = {
-        ...sessions[sessionId],
-        context: {
-          payload: SEND_DISAGREEMENT_PAYLOAD_NAME
-        }
-      };
-
-      console.log({
-        ...sessions[sessionId],
-        context: {
-          payload: SEND_DISAGREEMENT_PAYLOAD_NAME
-        }
-      }, '*******');
-
-      // SEND_DISAGREEMENT_PAYLOAD_HANDLER(sender_psid);
       break;
 
     default:
