@@ -77,7 +77,7 @@ app.post('/webhook', (req, res) => {
       // Gets the message. entry.messaging is an array, but 
       // will only ever contain one message, so we get index 0
       let webhook_event = entry.messaging[0];
-      // console.log(webhook_event); ---------------->
+      console.log(webhook_event); 
 
       // Get the sender PSID
       let sender_psid = webhook_event.sender.id;
@@ -91,7 +91,7 @@ app.post('/webhook', (req, res) => {
       // We could retrieve the user's current session, or create one if it doesn't exist
       // This is useful if we want our bot to figure out the conversation history
       const sessionId = findOrCreateSession(sender_psid);
-      console.log(sessionId);
+      console.log(sessionId, '*');
 
       // Check if the event is a message or postback and
       // pass the event to the appropriate handler function
