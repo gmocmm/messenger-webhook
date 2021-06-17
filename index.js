@@ -93,7 +93,7 @@ app.post('/webhook', (req, res) => {
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
   console.log(received_message, '*****');
-  wit.message(received_message).then(({entities, intents, traits}) => {
+  wit.message(received_message.text).then(({entities, intents, traits}) => {
     // You can customize your response using these
     console.log(intents);
     console.log(entities);
