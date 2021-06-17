@@ -146,11 +146,6 @@ function handlePostback(sender_psid, received_postback) {
 }
 
 
-
-
-
-
-
 // Sends sender actions 
 function setSenderAction(sender_psid, action) {
   // Construct the message body
@@ -206,8 +201,6 @@ function callSendAPI(sender_psid, response) {
     });
   }, 2000);
 }
-
-
 
 
 // Setup Get Started Button Postback

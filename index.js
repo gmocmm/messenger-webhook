@@ -3,12 +3,31 @@
 // Imports dependencies and set up http server
 const express = require('express');
 const bodyParser = require('body-parser');
+const {Wit, log} = require('node-wit');
 
 const { GET_STARTED_PAYLOAD_NAME, GET_STARTED_PAYLOAD_HANDLER } = require('./payloads/getStartedPayload');
+const { SEND_DISAGREEMENT_PAYLOAD_NAME, SEND_DISAGREEMENT_PAYLOAD_HANDLER } = require('./payloads/sendDisagreementPayload');
 const { SEND_REQUEST } = require('./services/callGraphApi');
 
 const app = express().use(bodyParser.json()); // creates express http server
 require('dotenv').config();
+
+
+// ----------------------------------------------------------------------------
+// Wit.ai bot specific code
+
+// This will contain all user sessions.
+// Each session has an entry:
+// sessionId -> {fbid: facebookUserId, context: sessionState}
+
+// Wit.ai parameters
+const WIT_TOKEN = 'JTJ7HCYEJBRWH2QHT7CBCH3XBWAEK23U';
+
+// Setting up our bot
+const wit = new Wit({
+  accessToken: WIT_TOKEN,
+  logger: new log.Logger(log.INFO)
+});
 
 app.get('/webhook', (req, res) => {
   const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
@@ -73,7 +92,15 @@ app.post('/webhook', (req, res) => {
 
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
-  console.log('handleMessage', '*+**');
+  wit.message(received_message).then(({entities, intents, traits}) => {
+    // You can customize your response using these
+    console.log(intents);
+    console.log(entities);
+    console.log(traits);
+  })
+  .catch((err) => {
+    console.error('Oops! Got an error from Wit: ', err.stack || err);
+  })
 };
 
 // Handles messaging_postbacks events
@@ -86,7 +113,11 @@ function handlePostback(sender_psid, received_postback) {
     case GET_STARTED_PAYLOAD_NAME:
       GET_STARTED_PAYLOAD_HANDLER(sender_psid);
       break;
-  
+    
+    case SEND_DISAGREEMENT_PAYLOAD_NAME: 
+      SEND_DISAGREEMENT_PAYLOAD_HANDLER(sender_psid);
+      break;
+
     default:
       break;
   }

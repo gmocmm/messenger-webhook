@@ -1,4 +1,4 @@
-const sendDisagreementPayloadHandler = () => {
+const sendDisagreementPayloadHandler = (sender_psid) => {
 }
 
 module.exports = {
