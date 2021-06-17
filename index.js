@@ -135,6 +135,7 @@ function handlePostback(sender_psid, received_postback) {
       break;
     
     case SEND_DISAGREEMENT_PAYLOAD_NAME:
+      console.log('AAAAAAAAAAAAA');
       const sessionId = findOrCreateSession(sender_psid);
       
       sessions[sessionId] = {
@@ -151,7 +152,7 @@ function handlePostback(sender_psid, received_postback) {
         }
       }, '*******');
 
-      SEND_DISAGREEMENT_PAYLOAD_HANDLER(sender_psid);
+      // SEND_DISAGREEMENT_PAYLOAD_HANDLER(sender_psid);
       break;
 
     default:
