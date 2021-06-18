@@ -23,16 +23,16 @@ const sendDisagreementPayloadHandler = async (sender_psid, session, received_mes
       resolve(session);
     }
 
-    if(session.context.step == 2) {
-      requestIdRestaurant(sender_psid);
+    // if(session.context.step == 2) {
+    //   requestIdRestaurant(sender_psid);
 
-      session = generateSesssion(session, 3, {
-        name: session.context.data.name,
-        state: received_message.text
-      });
+    //   session = generateSesssion(session, 3, {
+    //     name: session.context.data.name,
+    //     state: received_message.text
+    //   });
 
-      resolve(session);
-    }
+    //   resolve(session);
+    // }
   });
 }
 
