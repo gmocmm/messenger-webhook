@@ -117,8 +117,8 @@ async function handleMessage (sender_psid, received_message) {
     let payload = received_message.quick_reply.payload;
 
     switch (payload) {
-      case await SEND_DISAGREEMENT_PAYLOAD_NAME:
-        session = SEND_DISAGREEMENT_PAYLOAD_HANDLER(sender_psid, session);
+      case SEND_DISAGREEMENT_PAYLOAD_NAME:
+        session = await SEND_DISAGREEMENT_PAYLOAD_HANDLER(sender_psid, session);
         sessions[sessionId] = session;
         console.log(session, '******2');
         break;
