@@ -23,11 +23,16 @@ const sendDisagreementPayloadHandler = async (sender_psid, session, received_mes
       resolve(session);
     }
 
-    // if(session.context.step == 2) {
-    //   requestIdRestaurant(sender_psid);
-    //   session = generateSesssion(session, 3);
-    //   return resolve(session);
-    // }
+    if(session.context.step == 2) {
+      requestIdRestaurant(sender_psid);
+
+      session = generateSesssion(session, 3, {
+        name: session.context.data.name,
+        state: received_message.text
+      });
+
+      return resolve(session);
+    }
   });
 }
 
@@ -100,7 +105,7 @@ const requestCityState = async (sender_psid) => {
   // Message
   await SEND_REQUEST({
     "recipient": { "id": sender_psid },
-    "message": { "text": `Escriba la Ciudad y Estado donde tuvó el problema:` },
+    "message": { "text": `Escriba el Estado y la Ciudad donde tuvó el problema:` },
   });
 
   // ************************ */
