@@ -9,19 +9,20 @@ const sendDisagreementPayloadHandler = async (sender_psid, session) => {
       requestName(sender_psid);
       session = generateSesssion(session, 1);
       console.log(session, '******1');
+      resolve(session);
     }
 
     if(session.context.step == 1) {
       requestCityState(sender_psid);
       session = generateSesssion(session, 2);
+      resolve(session);
     }
 
     if(session.context.step == 2) {
       requestIdRestaurant(sender_psid);
       session = generateSesssion(session, 3);
+      resolve(session);
     }
-
-    resolve(session);
   });
 }
 
