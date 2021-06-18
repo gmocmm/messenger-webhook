@@ -120,6 +120,7 @@ function handleMessage(sender_psid, received_message) {
       case SEND_DISAGREEMENT_PAYLOAD_NAME:
         session = SEND_DISAGREEMENT_PAYLOAD_HANDLER(sender_psid, session);
         sessions[sessionId] = session;
+        console.log(session, '******2');
         break;
   
       default:

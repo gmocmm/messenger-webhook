@@ -2,11 +2,12 @@ const { SEND_REQUEST, GET_USER_DATA } = require('../services/callGraphApi');
 
 const sendDisagreementPayloadName = 'SEND_DISAGREEMENT_BUTTON_POSTBACK_PAYLOAD';
 
-const sendDisagreementPayloadHandler = (sender_psid, session) => {
+const sendDisagreementPayloadHandler = async (sender_psid, session) => {
   if(!session.context.step) {
-    startedPayload(sender_psid);
+    await startedPayload(sender_psid);
     requestName(sender_psid);
     session = generateSesssion(session, 1);
+    console.log(session, '******1');
     return session;
   }
 
@@ -24,38 +25,42 @@ const sendDisagreementPayloadHandler = (sender_psid, session) => {
 }
 
 const startedPayload = async (sender_psid) => {
-  let userData = await GET_USER_DATA(sender_psid);
-  userData = JSON.parse(userData);
+  return new Promise((resolve, _) => {
+    let userData = await GET_USER_DATA(sender_psid);
+    userData = JSON.parse(userData);
 
-  // ************************ */
+    // ************************ */
 
-  // Typing On
-  await SEND_REQUEST({
-    "recipient": { "id": sender_psid },
-    "sender_action": "typing_on"  
-  }); 
-  
-  // Message
-  await SEND_REQUEST({
-    "recipient": { "id": sender_psid },
-    "message": { "text": `${userData.first_name}, gracias por tomarte el tiempo en escribirnos, te ayudaremos a dar el seguimiento pertinente a tu situación.` },
+    // Typing On
+    await SEND_REQUEST({
+      "recipient": { "id": sender_psid },
+      "sender_action": "typing_on"  
+    }); 
+    
+    // Message
+    await SEND_REQUEST({
+      "recipient": { "id": sender_psid },
+      "message": { "text": `${userData.first_name}, gracias por tomarte el tiempo en escribirnos, te ayudaremos a dar el seguimiento pertinente a tu situación.` },
+    });
+
+    // ************************ */
+
+    // Typing On
+    await SEND_REQUEST({
+      "recipient": { "id": sender_psid },
+      "sender_action": "typing_on"  
+    }); 
+    
+    // Message
+    await SEND_REQUEST({
+      "recipient": { "id": sender_psid },
+      "message": { "text": `A continuación, te pediremos algunos datos para poder completar el reporte:` },
+    });
+
+    // ************************ */
+
+    resolve();
   });
-
-  // ************************ */
-
-  // Typing On
-  await SEND_REQUEST({
-    "recipient": { "id": sender_psid },
-    "sender_action": "typing_on"  
-  }); 
-  
-  // Message
-  await SEND_REQUEST({
-    "recipient": { "id": sender_psid },
-    "message": { "text": `A continuación, te pediremos algunos datos para poder completar el reporte:` },
-  });
-
-  // ************************ */
 }
 
 const requestName = async (sender_psid) => {
