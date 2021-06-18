@@ -76,7 +76,7 @@ const sendDisagreementPayloadHandler = async (sender_psid, session, received_mes
       });
       
       // Api request to save data
-      console.log(`Request: ${aux_session}`);
+      console.log(`Request: ${aux_session.context}`);
 
       resolve({});
     }
