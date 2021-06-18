@@ -4,35 +4,37 @@ const sendDisagreementPayloadName = 'SEND_DISAGREEMENT_BUTTON_POSTBACK_PAYLOAD';
 
 const sendDisagreementPayloadHandler = async (sender_psid, session, received_message) => {
   return new Promise(async (resolve, _) => {
+    
     if(!session.context.step) {
       await startedPayload(sender_psid);
       requestName(sender_psid);
       
-      session = generateSesssion(session, 1, null);
-      
-      resolve(session);
+      const aux_session = generateSesssion(session, 1, {
+      });
+
+      resolve(aux_session);
     }
     
     if(session.context.step == 1) {
       requestCityState(sender_psid);
       
-      session = generateSesssion(session, 2, {
+      const aux_session = generateSesssion(session, 2, {
         name: received_message.text
       });
 
-      resolve(session);
+      resolve(aux_session);
     }
 
-    // if(session.context.step == 2) {
-    //   requestIdRestaurant(sender_psid);
+    if(session.context.step == 2) {
+      requestIdRestaurant(sender_psid);
 
-    //   session = generateSesssion(session, 3, {
-    //     name: session.context.data.name,
-    //     state: received_message.text
-    //   });
+      const aux_session = generateSesssion(session, 3, {
+        name: session.context.data.name,
+        state: received_message.text
+      });
 
-    //   resolve(session);
-    // }
+      resolve(aux_session);
+    }
   });
 }
 

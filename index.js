@@ -55,7 +55,7 @@ app.get('/webhook', (req, res) => {
     // Checks the mode and token sent is correct
     if (mode === 'subscribe' && token === VERIFY_TOKEN) {
       // Responds with the challenge token from the request
-      // console.log('WEBHOOK_VERIFIED');
+      console.log('WEBHOOK_VERIFIED');
       res.status(200).send(challenge);
     } else {
       // Responds with '403 Forbidden' if verify tokens do not match
@@ -112,8 +112,6 @@ app.post('/webhook', (req, res) => {
 async function handleMessage (sender_psid, received_message) {
   const sessionId = findOrCreateSession(sender_psid);
   let session = sessions[sessionId];
-
-  console.log(session.context.step, '***************');
 
   if(received_message.quick_reply || session.context.step) {
     let payload = received_message.quick_reply ? received_message.quick_reply.payload : session.context.payload; 
