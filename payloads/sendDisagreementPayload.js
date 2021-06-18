@@ -25,7 +25,7 @@ const sendDisagreementPayloadHandler = async (sender_psid, session) => {
 }
 
 const startedPayload = async (sender_psid) => {
-  return new Promise((resolve, _) => {
+  return new Promise(async (resolve, _) => {
     let userData = await GET_USER_DATA(sender_psid);
     userData = JSON.parse(userData);
 
