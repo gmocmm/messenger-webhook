@@ -1,31 +1,29 @@
 const { SEND_REQUEST, GET_USER_DATA } = require('../services/callGraphApi');
 
-const sendDisagreementPayloadName = 'SEND_DISAGREEMENT_BUTTON_POSTBACK_PAYLOAD'
+const sendDisagreementPayloadName = 'SEND_DISAGREEMENT_BUTTON_POSTBACK_PAYLOAD';
+
 const sendDisagreementPayloadHandler = (sender_psid, session) => {
-  startedPayload();
-  requestName();
-  
   if(!session.context.step) {
-    startedPayload();
-    requestName();
+    startedPayload(sender_psid);
+    requestName(sender_psid);
     session = generateSesssion(session, 1);
     return session;
   }
 
   if(session.context.step == 1) {
-    requestCityState();
+    requestCityState(sender_psid);
     session = generateSesssion(session, 2);
     return session;
   }
 
   if(session.context.step == 2) {
-    requestIdRestaurant();
+    requestIdRestaurant(sender_psid);
     session = generateSesssion(session, 3);
     return session;
   }
 }
 
-const startedPayload = () => {
+const startedPayload = async (sender_psid) => {
   let userData = await GET_USER_DATA(sender_psid);
   userData = JSON.parse(userData);
 
@@ -60,7 +58,7 @@ const startedPayload = () => {
   // ************************ */
 }
 
-const requestName = () => {
+const requestName = async (sender_psid) => {
   // ************************ */
 
   // Typing On
@@ -78,7 +76,7 @@ const requestName = () => {
   // ************************ */
 }
 
-const requestCityState = () => {
+const requestCityState = async (sender_psid) => {
   // ************************ */
 
   // Typing On
@@ -96,7 +94,7 @@ const requestCityState = () => {
   // ************************ */
 }
 
-const requestIdRestaurant = () => {
+const requestIdRestaurant = async (sender_psid) => {
   // ************************ */
 
   // Typing On
@@ -113,8 +111,6 @@ const requestIdRestaurant = () => {
 
   // ************************ */
 }
-
-
 
 const generateSesssion = (session, step) => {
    return {
