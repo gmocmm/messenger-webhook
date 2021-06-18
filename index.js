@@ -113,7 +113,9 @@ async function handleMessage (sender_psid, received_message) {
   const sessionId = findOrCreateSession(sender_psid);
   let session = sessions[sessionId];
 
-  if(received_message.quick_reply) {
+  console.log(session.context.step, '***************');
+
+  if(received_message.quick_reply || session.context.step) {
     let payload = received_message.quick_reply.payload;
 
     switch (payload) {
