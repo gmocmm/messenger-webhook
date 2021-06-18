@@ -31,7 +31,7 @@ const sendDisagreementPayloadHandler = async (sender_psid, session, received_mes
         state: received_message.text
       });
 
-      return resolve(session);
+      resolve(session);
     }
   });
 }
