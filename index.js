@@ -120,7 +120,7 @@ async function handleMessage (sender_psid, received_message) {
 
     switch (payload) {
       case SEND_DISAGREEMENT_PAYLOAD_NAME:
-        session = await SEND_DISAGREEMENT_PAYLOAD_HANDLER(sender_psid, session);
+        session = await SEND_DISAGREEMENT_PAYLOAD_HANDLER(sender_psid, session, received_message);
         sessions[sessionId] = session;
         console.log(session, '******2');
         break;

@@ -2,20 +2,26 @@ const { SEND_REQUEST, GET_USER_DATA } = require('../services/callGraphApi');
 
 const sendDisagreementPayloadName = 'SEND_DISAGREEMENT_BUTTON_POSTBACK_PAYLOAD';
 
-const sendDisagreementPayloadHandler = async (sender_psid, session) => {
+const sendDisagreementPayloadHandler = async (sender_psid, session, received_message) => {
   return new Promise(async (resolve, _) => {
     if(!session.context.step) {
       await startedPayload(sender_psid);
       requestName(sender_psid);
-      session = generateSesssion(session, 1);
-      console.log(session, '******1');
+      
+      session = generateSesssion(session, 1, null);
+      
       resolve(session);
     }
-    // if(session.context.step == 1) {
-    //   requestCityState(sender_psid);
-    //   session = generateSesssion(session, 2);
-    //   return resolve(session);
-    // }
+    
+    if(session.context.step == 1) {
+      requestCityState(sender_psid);
+      
+      session = generateSesssion(session, 2, {
+        name: received_message.text
+      });
+
+      resolve(session);
+    }
 
     // if(session.context.step == 2) {
     //   requestIdRestaurant(sender_psid);
@@ -118,12 +124,13 @@ const requestIdRestaurant = async (sender_psid) => {
   // ************************ */
 }
 
-const generateSesssion = (session, step) => {
+const generateSesssion = (session, step, data) => {
    return {
     ...session,
     context: {
       payload: sendDisagreementPayloadName,
-      step: step
+      step: step,
+      data: data
     }
   };
 }
