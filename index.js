@@ -116,7 +116,7 @@ async function handleMessage (sender_psid, received_message) {
   console.log(session.context.step, '***************');
 
   if(received_message.quick_reply || session.context.step) {
-    let payload = received_message.quick_reply.payload;
+    let payload = received_message.quick_reply ? received_message.quick_reply.payload : session.context.payload; 
 
     switch (payload) {
       case SEND_DISAGREEMENT_PAYLOAD_NAME:
