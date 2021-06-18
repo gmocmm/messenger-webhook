@@ -111,22 +111,15 @@ app.post('/webhook', (req, res) => {
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
   const sessionId = findOrCreateSession(sender_psid);
-  const session = sessions[sessionId];
+  let session = sessions[sessionId];
 
   if(received_message.quick_reply) {
     let payload = received_message.quick_reply.payload;
 
     switch (payload) {
       case SEND_DISAGREEMENT_PAYLOAD_NAME:
-        
-        // sessions[sessionId] = {
-        //   ...sessions[sessionId],
-        //   context: {
-        //     payload: SEND_DISAGREEMENT_PAYLOAD_NAME
-        //   }
-        // };
-  
-        SEND_DISAGREEMENT_PAYLOAD_HANDLER(sender_psid, session);
+        session = SEND_DISAGREEMENT_PAYLOAD_HANDLER(sender_psid, session);
+        sessions[sessionId] = session;
         break;
   
       default:
