@@ -86,11 +86,6 @@ app.post('/webhook', (req, res) => {
         "sender_action": "mark_seen"  
       }); 
 
-      // We could retrieve the user's current session, or create one if it doesn't exist
-      // This is useful if we want our bot to figure out the conversation history
-      const sessionId = findOrCreateSession(sender_psid);
-      console.log(sessions[sessionId], '*');
-
       // Check if the event is a message or postback and
       // pass the event to the appropriate handler function
       if (webhook_event.message) {
@@ -110,6 +105,8 @@ app.post('/webhook', (req, res) => {
 
 // Handles messages events
 async function handleMessage (sender_psid, received_message) {
+  // We could retrieve the user's current session, or create one if it doesn't exist
+  // This is useful if we want our bot to figure out the conversation history
   const sessionId = findOrCreateSession(sender_psid);
   let session = sessions[sessionId];
 
